@@ -1,18 +1,26 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Signup from './pages/Signup'
+import Signin from './pages/Signin'
+import axios from 'axios'
+import authRepository from './features/auth.repository'
+import useCurrentUserStore from './features/current-user.state'
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const { getLoginUser } = authRepository;
+  const userStore = useCurrentUserStore();
+  useEffect(() => {
+    getLoginUser().then((res) => {
+      userStore.setUser({name:res.name,email:res.email});
+    });
+  },[])
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path='/signup' element={<Signup />}/>
+          <Route path='/signin' element={<Signin />}/>
         </Routes>
       </BrowserRouter>
     </>

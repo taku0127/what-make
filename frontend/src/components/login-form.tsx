@@ -9,50 +9,55 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useState } from "react"
+
+type LoginFormProps = {
+  login: (email: string, password: string) => Promise<void>;
+  setEmail: React.Dispatch<React.SetStateAction<string>>;
+  loginHandler: (e: React.FormEvent) => Promise<void>;
+  setPassword: React.Dispatch<React.SetStateAction<string>>;
+  } & React.ComponentProps<"div">;
 
 export function LoginForm({
   className,
+  login,
+  setEmail,
+  setPassword,
+  loginHandler,
   ...props
-}: React.ComponentProps<"div">) {
+}: LoginFormProps) {
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle>Login to your account</CardTitle>
+          <CardTitle>ログイン画面</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            メールアドレスとパスワードを入力してください
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form>
             <div className="flex flex-col gap-6">
               <div className="grid gap-3">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">メールアドレス</Label>
                 <Input
                   id="email"
                   type="email"
                   placeholder="m@example.com"
                   required
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="grid gap-3">
                 <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
-                  <a
-                    href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Forgot your password?
-                  </a>
+                  <Label htmlFor="password">パスワード</Label>
                 </div>
-                <Input id="password" type="password" required />
+                <Input id="password" type="password" required 
+                  onChange={(e) => setPassword(e.target.value)} />
               </div>
               <div className="flex flex-col gap-3">
-                <Button type="submit" className="w-full">
-                  Login
-                </Button>
-                <Button variant="outline" className="w-full">
-                  Login with Google
+                <Button type="submit" onClick={(e) => loginHandler(e)} className="w-full">
+                    ログインする
                 </Button>
               </div>
             </div>

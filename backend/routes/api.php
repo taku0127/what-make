@@ -13,5 +13,4 @@ Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('api.login.store');
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/loggedin', [LoginController::class, 'loggedin'])->name('api.loggedin');
-    Route::get('/users', [UsersController::class, 'index'])->name('api.users');
 });
