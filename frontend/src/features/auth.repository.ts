@@ -17,6 +17,14 @@ const authRepository = {
         }catch(error){
             throw error;
         }
-    }
+    },
+    async signUp(name:string, email:string, password:string){
+        try{
+            await axios.get('/sanctum/csrf-cookie');
+            const response = await axios.post('/api/register', { name, email, password });
+        }catch(error){
+            throw error;
+        }
+    },
 }
 export default authRepository;

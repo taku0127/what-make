@@ -7,6 +7,7 @@ import Signin from './pages/Signin'
 import axios from 'axios'
 import authRepository from './features/auth.repository'
 import useCurrentUserStore from './features/current-user.state'
+import Signup from './pages/Signup'
 
 function App() {
   const { getLoginUser } = authRepository;
@@ -21,6 +22,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/signin' element={<Signin />}/>
+          <Route path='/signup' element={<Signup />}/>
         </Routes>
       </BrowserRouter>
     </>

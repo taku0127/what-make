@@ -11,6 +11,7 @@ class UsersController extends BaseController
     //
     public function index()
     {
-        return $request->user();
+        $users = User::all();
+        return $this->sendResponse('successfully fetched.', $users);
     }
 }
