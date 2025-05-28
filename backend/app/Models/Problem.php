@@ -22,7 +22,9 @@ class Problem extends Model
     }
     public function products(){
         return $this->hasMany(Product::class);
-
+    }
+    public function bookmarks(){
+        return $this->hasMany(Bookmark::class);
     }
 
 }

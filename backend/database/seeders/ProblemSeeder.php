@@ -19,9 +19,11 @@ class ProblemSeeder extends Seeder
         $userIds = User::pluck('id');
 
         foreach ($userIds as $userId) {
-            Problem::factory()->create([
-                'user_id' => $userId,
-            ]);
+            for($i = 0; $i < 3; $i++){
+                Problem::factory()->create([
+                    'user_id' => $userId,
+                ]);
+            }
         }
     }
 }
