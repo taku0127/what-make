@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Problem;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProblemController extends Controller
@@ -14,22 +15,32 @@ class ProblemController extends Controller
     public function index()
     {
         return response()->json([
-            'latest' => $this->getLatestProblems(),
-            'popular' => $this->getPopularProblems(),
-            'bookmark' => $this->getBookmarkProblems(),
+            'latest' => $this->getLatestProblems()->limit(4)->get(),
+            'popular' => $this->getPopularProblems()->limit(4)->get(),
+            'bookmark' => $this->getBookmarkProblems()->limit(4)->get(),
+            'products' => $this->getProductProblems()->limit(4)->get(),
         ]);
     }
 
+    public function detail($id){
+        $problemDetail = Problem::with(['user','comments','products'])->find($id);
+        return response()->json($problemDetail);
+    }
+
     private function getLatestProblems(){
-        return Problem::orderBy('created_at','desc')->get();
+        return Problem::withCount(['likes','comments'])->orderBy('created_at','desc');
     }
 
     private function getPopularProblems(){
-        return Problem::withCount('likes')->orderBy('likes_count','desc')->get();
+        return Problem::withCount(['likes','comments'])->orderBy('likes_count','desc');
     }
 
     private function getBookmarkProblems(){
-        return Problem::withCount('bookmarks')->orderBy('bookmarks_count','desc')->get();
+        return Problem::withCount('bookmarks')->orderBy('bookmarks_count','desc');
+    }
+
+    private function getProductProblems(){
+        return Product::with(['user','problem'])->orderBy('created_at','desc');
     }
 
     /**
