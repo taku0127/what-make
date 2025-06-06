@@ -3,10 +3,14 @@ import { Link } from 'react-router-dom';
 import CalenderIcon from '../assets/Calendar.svg'
 import LinkButton from './ui/linkButton';
 import ArrowIcon from '../assets/arrow.svg'
-import HeartIcon from '../assets/heart.svg'
-import CommentIcon from '../assets/comment.svg'
+import type { Problem } from '@/features/database.type';
+import LikesIcon from './LikesIcon';
+import Comment from './Comment';
 
-const ContentList = ({ problem }) => {
+type Props = {
+    problem: Problem;
+}
+const ContentList = ({ problem } : Props) => {
     const textSlice = (text:string,length:number) => {
         if(text.length < length) return text;
         return text.slice(0, length)+"...";
@@ -17,8 +21,8 @@ const ContentList = ({ problem }) => {
             <p className="text-[16px]">{textSlice(problem.purpose,100)}</p>
             <p className="mt-2 text-gray-500 text-sm bg-[url(../src/assets/Calendar.svg)] bg-no-repeat bg-contain pl-6">{new Date(problem.created_at).toLocaleDateString('ja-JP')}</p>
             <div className='flex mt-2'>
-                <div><img className='w-6 inline-block' src={HeartIcon} alt="" /><span className='ml-1'>{problem.likes_count}</span></div>
-                <div className='ml-2'><img className='w-6 inline-block' src={CommentIcon} alt="" /><span className='ml-1'>{problem.comments_count}</span></div>
+                <LikesIcon count={problem!.likes_count}></LikesIcon>
+                <Comment className='ml-2' count={problem!.comments_count}></Comment>
             </div>
             <LinkButton className='inline-block ml-auto group' color='def' path={`/problem/${problem.id}`}>詳細を見る<span><img className='inline-block ml-2 h-[16px] group-hover:translate-x-1 transition-transform duration-200' src={ArrowIcon} alt="" /></span></LinkButton>
     </div>

@@ -19,7 +19,7 @@ function App() {
   const userStore = useCurrentUserStore();
   useEffect(() => {
     getLoginUser().then((res) => {
-      userStore.setUser({name:res.name,email:res.email});
+      userStore.setUser({name:res.name,id:res.id});
     });
   },[])
   return (

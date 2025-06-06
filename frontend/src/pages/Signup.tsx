@@ -14,7 +14,7 @@ const Signup = () => {
     e.preventDefault();
     await signUp(name, email, password);
     await getLoginUser().then((res) => {
-      setUser({name:res.name,email:res.email});
+      setUser({name:res.name,id:res.id});
     }).catch(err => {
       console.log(err);
     });

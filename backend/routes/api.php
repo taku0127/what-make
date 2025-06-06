@@ -17,6 +17,9 @@ Route::post('/login', [LoginController::class, 'login'])->name('api.login.store'
 Route::post('/register', [RegisterController::class, 'Register']);
 Route::get('/top',[ProblemController::class, 'index']);
 Route::get('/problem/{id}',[ProblemController::class, 'detail']);
+Route::post('/problem/{id}/product',[ProblemController::class, 'storeProduct']);
+Route::delete('/product/{id}',[ProblemController::class, 'deleteProduct']);
+Route::patch('/product/{id}',[ProblemController::class, 'updateProduct']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/loggedin', [LoginController::class, 'loggedin'])->name('api.loggedin');
 });

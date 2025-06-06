@@ -5,8 +5,17 @@ import ContentList from './ContentList';
 import LinkButton from './ui/linkButton';
 import ArrowIcon from '../assets/arrow.svg'
 import ProductList from './ProductList';
-
-const HomeContent = ({problems}) => {
+import type { Problem } from '@/features/database.type';
+type Props = {
+    problems: Problems;
+}
+type Problems = {
+    latest: Problem[],
+    popular: Problem[],
+    bookmarks: Problem[],
+    products: Problem[],
+}
+const HomeContent = ({problems} : Props) => {
     const { latest , popular, bookmarks, products } = problems;
   return (
     <div className='max-w-7xl mx-auto bg-[#FFFFFE]'>

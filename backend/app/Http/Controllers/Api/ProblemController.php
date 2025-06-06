@@ -23,8 +23,55 @@ class ProblemController extends Controller
     }
 
     public function detail($id){
-        $problemDetail = Problem::with(['user','comments','products'])->find($id);
+        $problemDetail = Problem::with(['user','comments.user',
+        'products'=> function($query){$query->orderBy('updated_at','desc');},
+        'products.user','likes'])->withCount(['likes','comments'])->find($id);
         return response()->json($problemDetail);
+    }
+
+    public function updateProduct(Request $request, string $id){
+        $userId = $request->user()->id;
+        $product = Product::where('user_id', $userId)
+            ->where('id', $id)
+            ->first();
+        if (!$product) {
+            return response()->json(['error' => 'Product not found or unauthorized'], 404);
+        }
+        $product->url = $request->url;
+        $product->save();
+        return response()->json($product);
+    }
+
+    public function storeProduct(Request $request, string $id){
+
+        $userId = $request->user()->id;
+        // すでに投稿があるかチェック
+        $exists = Product::where('user_id', $userId)
+            ->where('problem_id', $id)
+            ->exists();
+
+        if ($exists) {
+            return response()->json(['error' => 'すでに投稿済みです'], 400);
+        }
+        $product = Product::create([
+            'url' => $request->url,
+            'user_id' => $userId,
+            'problem_id' => $id,
+        ]);
+        $product->load('user');
+        return response()->json($product);
+    }
+
+    public function deleteProduct(Request $request,string $id){
+        $userId = $request->user()->id;
+        $product = Product::where('user_id', $userId)
+            ->where('id', $id)
+            ->first();
+        if (!$product) {
+            return response()->json(['error' => 'Product not found or unauthorized'], 404);
+        }
+        $product->delete();
+        return response()->json($product);
     }
 
     private function getLatestProblems(){

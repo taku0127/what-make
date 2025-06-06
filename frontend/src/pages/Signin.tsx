@@ -13,7 +13,7 @@ const Signin = () => {
     e.preventDefault();
     await login(email, password);
     await getLoginUser().then((res) => {
-      setUser({name:res.name,email:res.email});
+      setUser({name:res.name,id:res.id});
     });
   }
   if(user != null) return <Navigate replace to="/"/>;

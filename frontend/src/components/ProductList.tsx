@@ -2,6 +2,7 @@ import React from 'react'
 import LinkButton from './ui/linkButton'
 
 const ProductList = ({product}) => {
+  if(!product) return null;
   const textSlice = (text:string,length:number) => {
     if(text.length < length) return text;
     return text.slice(0, length)+"...";
